@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"time"
+	"os"
 )
 
 var (
 	n int
-	startX = 100
+	startX int
 	startY int
 	endX int
 	endY int
@@ -40,6 +41,23 @@ func CreateChess() [][] int {
 	return chess
 }
 
+func CheckingArguments() {
+	if n <= 1 { 
+		fmt.Println("[Error]: Bad N value")
+		os.Exit(3)
+	}
+
+	if startX >= n || startY >= n || startX < 0 || startY < 0 {
+		fmt.Println("[Error]: Bad start values")
+		os.Exit(3)
+	}
+
+	if endX >= n || endY >= n || endX < 0 || endY < 0 {
+		fmt.Println("[Error]: Bad end values")
+		os.Exit(3)
+	}
+}
+
 func main() {
 	fmt.Println("Enter N:")
 	fmt.Scan(&n)
@@ -50,5 +68,6 @@ func main() {
 	fmt.Println("Enter end position (x;y): ")
 	fmt.Scan(&endX, &endY)
 
+	CheckingArguments()
 	RunBruteForce()
 }
