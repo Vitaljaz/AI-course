@@ -19,18 +19,32 @@ var (
 
 func RunBruteForce() {
 	fmt.Println("[BruteForce]:")
-	timer := time.Now()
 	var current int
 	chess := CreateChess()
+	timer := time.Now()
 	if BruteForce(chess, current, startX, startY) {
-		PrintChess(chess)
 		fmt.Printf("[BruteForce]: Elapsed time: %v", time.Since(timer))
+		PrintChess(chess)
 	} else {
 		fmt.Println("[BruteForce]: Impossible!")
 	}
 }
 
+func RunBFS() {
+	fmt.Println("\n[BFS]:")
+	chess := CreateChess()
+	timer := time.Now()
+	if BFS(chess) {
+		fmt.Printf("[BFS]: Elapsed time: %v", time.Since(timer))
+		PrintChess(chess)
+	} else {
+		fmt.Println("[BFS]: Impossible!")
+		PrintChess(chess)
+	}
+}
+
 func PrintChess(chess [][]int) {
+	fmt.Println()
 	chess[startX][startY] = -1
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
@@ -46,8 +60,10 @@ func CreateChess() [][] int {
 		chess[i] = make([]int, n)
 	}
 
-	for i := 0; i < destroyCount; i++ {
-		chess[destroyFieldsX[i]][destroyFieldsY[i]] = -3
+	if destroyCount > 0 {
+		for i := 0; i < destroyCount; i++ {
+			chess[destroyFieldsX[i]][destroyFieldsY[i]] = -3
+		}
 	}
 	return chess
 }
@@ -97,12 +113,15 @@ func main() {
 	destroyFieldsX = make([]int, destroyCount)
 	destroyFieldsY = make([]int, destroyCount)
 
-	fmt.Println("Enter the coordinates of the cells to be cut: ")
-	for i := 0; i < destroyCount; i++ {
-		fmt.Scan(&destroyFieldsX[i])
-		fmt.Scan(&destroyFieldsY[i])
+	if destroyCount > 0 {
+		fmt.Println("Enter the coordinates of the cells to be cut: ")
+		for i := 0; i < destroyCount; i++ {
+			fmt.Scan(&destroyFieldsX[i])
+			fmt.Scan(&destroyFieldsY[i])
+		}
 	}
 
 	CheckingArguments()
 	RunBruteForce()
+	RunBFS()
 }
