@@ -67,6 +67,18 @@ func CheckingArguments() {
 		fmt.Println("[Error]: Bad end values")
 		os.Exit(3)
 	}
+
+	if destroyCount < 0 {
+		fmt.Println("[Error]: Bad destroyCount")
+		os.Exit(3)
+	}
+
+	for i := 0; i < destroyCount; i++ {
+		if destroyFieldsX[i] >= n || destroyFieldsY[i] >= n || destroyFieldsX[i] < 0 || destroyFieldsY[i] < 0 {
+			fmt.Println("[Error]: Bad values of destroy coordinates")
+			os.Exit(3)
+		}
+	}
 }
 
 func main() {
