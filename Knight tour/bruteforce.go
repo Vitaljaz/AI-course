@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func BruteForce(chess [][]int, current int, x int, y int) bool {
 	if x >= n || y >= n || x < 0 || y < 0 {
 		return false
@@ -7,6 +9,7 @@ func BruteForce(chess [][]int, current int, x int, y int) bool {
 
 	if x == endX && y == endY {
 		chess[x][y] = -2
+		fmt.Println("[BruteForce]: Last move: ", current)
 		return true
 	}
 	
