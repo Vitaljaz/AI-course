@@ -1,6 +1,9 @@
 package main
 
-import "container/list"
+import (
+	"container/list"
+	"fmt"
+)
 
 var (
 	dx = [8]int {1, 1, -1, -1, 2, 2, -2, -2}
@@ -41,23 +44,25 @@ func BFS(chess [][]int) bool {
 	chess[startX][startY] = -1
 	chess[endX][endY] = -2
 
-	PrintChess(chess)
 	for l.Len() != 0 {
 		node := GetFromList()
 		l.Remove(l.Front())
+
+		if chess[node.x][node.y] == -2 {
+			return true
+		}
+
 		for k := 0; k < 8; k++ {
 			next := new(Vertex)
 			next.Create(node.x + dx[k], node.y + dy[k])
 
 			if !IsValidMove(next) {
+				fmt.Println("Cant move to: ", node.x, node.y)
 				continue
 			}
 
 			if chess[next.x][next.y] != -3 && 
 				chess[next.x][next.y] == 0 {
-					if chess[next.x][next.y] == -2 {
-						return true
-					}
 					chess[next.x][next.y] = current
 					current++
 					l.PushBack(next)
