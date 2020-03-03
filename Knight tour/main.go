@@ -7,6 +7,30 @@ import (
 )
 
 var (
+	dx = [8]int {1, 1, -1, -1, 2, 2, -2, -2}
+	dy = [8]int {2, -2, 2, -2, 1, -1, 1, -1}
+)
+
+type Vertex struct {
+	x int
+	y int
+
+	parent *Vertex
+}
+
+func (v *Vertex) Create(x, y int) {
+	v.x = x
+	v.y = y
+}
+
+func IsValidMove(v *Vertex) bool {
+	if v.x < 0 || v.x >= n || v.y < 0 || v.y >= n {
+		return false
+	}
+	return true
+}
+
+var (
 	n 	   int
 	startX int
 	startY int
@@ -18,12 +42,12 @@ var (
 )
 
 func RunBruteForce() {
-	fmt.Println("[BruteForce]:")
+	fmt.Println("\n[BruteForce]:")
 	var current int
 	chess := CreateChess()
 	timer := time.Now()
 	if BruteForce(chess, current, startX, startY) {
-		fmt.Printf("[BruteForce]: Elapsed time: %v", time.Since(timer))
+		fmt.Printf("[BruteForce]: Elapsed time: %v\n", time.Since(timer))
 		PrintChess(chess)
 	} else {
 		fmt.Println("[BruteForce]: Impossible!")
@@ -34,9 +58,12 @@ func RunBFS() {
 	fmt.Println("\n[BFS]:")
 	chess := CreateChess()
 	timer := time.Now()
-	if BFS(chess) {
-		fmt.Printf("[BFS]: Elapsed time: %v", time.Since(timer))
-		PrintChess(chess)
+
+	ok, vertex := BFS(chess)
+
+	if ok {
+		fmt.Printf("[BFS]: Elapsed time: %v\n", time.Since(timer))
+		PrintChess(RestorePath(vertex, chess))
 	} else {
 		fmt.Println("[BFS]: Impossible!")
 		PrintChess(chess)
@@ -44,7 +71,6 @@ func RunBFS() {
 }
 
 func PrintChess(chess [][]int) {
-	fmt.Println()
 	chess[startX][startY] = -1
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
