@@ -18,3 +18,15 @@ func IsValidMove(v *Vertex) bool {
 	}
 	return true
 }
+
+func GetFromListFront() *Vertex {
+	e := l.Front()
+	v := e.Value.(*Vertex)
+	return v
+}
+
+func GetFromListBack() *Vertex {
+	e := l.Back()
+	v := e.Value.(*Vertex)
+	return v
+}
