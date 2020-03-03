@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"os"
+	"container/list"
 )
 
 var (
@@ -18,6 +19,8 @@ var (
 		
 	dx = [8]int {1, 1, -1, -1, 2, 2, -2, -2}
 	dy = [8]int {2, -2, 2, -2, 1, -1, 1, -1}
+
+	l = list.New()
 )
 
 func RunBruteForce() {
@@ -42,10 +45,32 @@ func RunBFS() {
 
 	if ok {
 		fmt.Printf("[BFS]: Elapsed time: %v\n", time.Since(timer))
-		PrintChess(RestorePath(vertex, chess))
+		PrintChess(RestorePathBFS(vertex, CreateChess()))
 	} else {
 		fmt.Println("[BFS]: Impossible!")
 		PrintChess(chess)
+	}
+}
+
+func RunDFS() {
+	fmt.Println("\n[DFS]:")
+	chess := CreateChess()
+	timer := time.Now()
+
+	ok, vertex := DFS(chess)
+
+	if ok {
+		fmt.Printf("[DFS]: Elapsed time: %v\n", time.Since(timer))
+		PrintChess(RestorePathDFS(vertex, CreateChess()))
+	} else {
+		fmt.Println("[DFS]: Impossible!")
+		PrintChess(chess)
+	}
+}
+
+func ClearList() {
+	for l.Len() != 0 {
+		l.Remove(l.Back())
 	}
 }
 
@@ -59,7 +84,7 @@ func PrintChess(chess [][]int) {
 	}
 }
 
-func CreateChess() [][] int {
+func CreateChess() [][]int {
 	chess := make([][]int, n)
 	for i := range chess {
 		chess[i] = make([]int, n)
@@ -129,4 +154,5 @@ func main() {
 	CheckingArguments()
 	RunBruteForce()
 	RunBFS()
+	RunDFS()
 }
