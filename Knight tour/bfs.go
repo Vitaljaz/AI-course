@@ -1,46 +1,41 @@
 package main
 
-import (
-	"container/list"
-	"fmt"
-)
+import "fmt"
 
-var (
-	l = list.New()
-)
-
-func GetFromList() *Vertex {
-	e := l.Front()
-	v := e.Value.(*Vertex)
-	return v
-}
-
-func RestorePath(vertex *Vertex, chess [][]int) [][]int {
+func RestorePathBFS(vertex *Vertex, chess [][]int) [][]int {
 	chess[endX][endY] = -2
+
 	v := vertex.parent
 	i := 1
+
 	fmt.Println("[BFS]: Reverse Path: ")
 	fmt.Printf("(%d;%d) ", endX, endY)
+
 	for v != nil {
 		chess[v.x][v.y] = i
 		i++
 		fmt.Printf("(%d;%d) ", v.x, v.y)
 		v = v.parent
 	}
+
 	fmt.Printf("\n")
 	return chess
 }
 
-func BFS(chess [][]int) (can bool, finish *Vertex) {
+func BFS(chess [][]int) (ok bool, finish *Vertex) {
+	ClearList()
+
+	ok = false
+	chess[startX][startY] = -1
+
 	vStart := new(Vertex)
 	vStart.Create(startX, startY)
 	l.PushBack(vStart)
 
-	can = false
-	chess[startX][startY] = -1
+	current := 0
 
 	for l.Len() != 0 {
-		node := GetFromList()
+		node := GetFromListFront()
 		l.Remove(l.Front())
 
 		for k := 0; k < 8; k++ {
@@ -54,9 +49,12 @@ func BFS(chess [][]int) (can bool, finish *Vertex) {
 			if chess[next.x][next.y] == 0 &&
 				chess[next.x][next.y] != -3 {
 					next.parent = node
+					
+					chess[next.x][next.y] = current
+					current++
 
 					if next.x == endX && next.y == endY {
-						can = true
+						ok = true
 						finish = next
 						return
 					}
