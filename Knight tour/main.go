@@ -25,9 +25,9 @@ func RunBruteForce() {
 	fmt.Println("\n[BruteForce]:")
 	chess := CreateChess()
 	timer := time.Now()
-	
+
 	if BruteForce(chess, 0, startX, startY) {
-		fmt.Printf("[BruteForce]: Elapsed time: %v\n", time.Since(timer))
+		fmt.Printf("[BruteForce]: Elapsed time: %s\n", time.Since(timer))
 		PrintChess(chess)
 	} else {
 		fmt.Println("[BruteForce]: Impossible!")
@@ -42,7 +42,7 @@ func RunBFS() {
 	ok, vertex, count := BFS(chess)
 
 	if ok {
-		fmt.Printf("[BFS]: Elapsed time: %v\n", time.Since(timer))
+		fmt.Printf("[BFS]: Elapsed time: %s\n", time.Since(timer))
 		path, pathCount := RestorePathBFS(vertex, CreateChess())
 		PrintChess(path)
 		fmt.Println("[BFS]: P =", float64(pathCount) / float64(count))
@@ -60,7 +60,7 @@ func RunDFS() {
 	ok, vertex, count := DFS(chess)
 
 	if ok {
-		fmt.Printf("[DFS]: Elapsed time: %v\n", time.Since(timer))
+		fmt.Printf("[DFS]: Elapsed time: %s\n", time.Since(timer))
 		path, pathCount := RestorePathBFS(vertex, CreateChess())
 		PrintChess(path)
 		fmt.Println("[DFS]: P =", float64(pathCount) / float64(count))
