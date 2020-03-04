@@ -8,11 +8,9 @@ import (
 )
 
 var (
-	n 	   int
-	startX int
-	startY int
-	endX   int
-	endY   int
+	n 	             int
+	startX, startY   int
+	endX, endY       int
 	destroyCount     int
 	destroyFieldsX []int
 	destroyFieldsY []int
@@ -25,10 +23,10 @@ var (
 
 func RunBruteForce() {
 	fmt.Println("\n[BruteForce]:")
-	var current int
 	chess := CreateChess()
 	timer := time.Now()
-	if BruteForce(chess, current, startX, startY) {
+	
+	if BruteForce(chess, 0, startX, startY) {
 		fmt.Printf("[BruteForce]: Elapsed time: %v\n", time.Since(timer))
 		PrintChess(chess)
 	} else {
