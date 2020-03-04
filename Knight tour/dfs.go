@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func RestorePathDFS(vertex *Vertex, chess [][]int) [][]int {
+func RestorePathDFS(vertex *Vertex, chess [][]int) (path [][]int, pathCount int) {
 	chess[endX][endY] = -2
 
 	v := vertex.parent
@@ -19,10 +19,13 @@ func RestorePathDFS(vertex *Vertex, chess [][]int) [][]int {
 	}
 
 	fmt.Printf("\n")
-	return chess
+	
+	path = chess
+	pathCount = i
+	return
 }
 
-func DFS(chess [][]int) (ok bool, finish *Vertex) {
+func DFS(chess [][]int) (ok bool, finish *Vertex, count int) {
 	ClearList()
 
 	ok = false
@@ -56,6 +59,7 @@ func DFS(chess [][]int) (ok bool, finish *Vertex) {
 					if next.x == endX && next.y == endY {
 						ok = true
 						finish = next
+						count = current
 						return
 					}
 

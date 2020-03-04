@@ -41,11 +41,13 @@ func RunBFS() {
 	chess := CreateChess()
 	timer := time.Now()
 
-	ok, vertex := BFS(chess)
+	ok, vertex, count := BFS(chess)
 
 	if ok {
 		fmt.Printf("[BFS]: Elapsed time: %v\n", time.Since(timer))
-		PrintChess(RestorePathBFS(vertex, CreateChess()))
+		path, pathCount := RestorePathBFS(vertex, CreateChess())
+		PrintChess(path)
+		fmt.Println("[BFS]: P =", float64(pathCount) / float64(count))
 	} else {
 		fmt.Println("[BFS]: Impossible!")
 		PrintChess(chess)
@@ -57,11 +59,13 @@ func RunDFS() {
 	chess := CreateChess()
 	timer := time.Now()
 
-	ok, vertex := DFS(chess)
+	ok, vertex, count := DFS(chess)
 
 	if ok {
 		fmt.Printf("[DFS]: Elapsed time: %v\n", time.Since(timer))
-		PrintChess(RestorePathDFS(vertex, CreateChess()))
+		path, pathCount := RestorePathBFS(vertex, CreateChess())
+		PrintChess(path)
+		fmt.Println("[DFS]: P =", float64(pathCount) / float64(count))
 	} else {
 		fmt.Println("[DFS]: Impossible!")
 		PrintChess(chess)
